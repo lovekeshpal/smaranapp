@@ -1,15 +1,13 @@
-let notes: { id: number; text: string }[] = [];
+import prisma from "../config/prisma";
 
-export const getAllNotes = () => {
-  return notes;
+export const getAllNotes = async () => {
+  return await prisma.note.findMany({
+    orderBy: { createdAt: "desc" },
+  });
 };
 
-export const addNote = (text: string) => {
-  const newNote = {
-    id: Date.now(),
-    text,
-  };
-
-  notes.push(newNote);
-  return newNote;
+export const addNote = async (text: string) => {
+  return await prisma.note.create({
+    data: { text },
+  });
 };
